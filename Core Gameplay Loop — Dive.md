@@ -92,3 +92,30 @@ each having a minimum depth requirement to reach the zone/stage. Each stage has 
 
 The player can go deeper he wants, finding better fishes, but the only risk he will ecounter is that getting back to the surface will be much longer,
 the player must make a calculated decision if he wants to go deeper to get better fishes.
+
+Example, in a dive:
+
+Surface
+   ↓
+20m — Coral Reef
+   ↓
+40m — Kelp Forest
+   ↓
+60m — Sunken Ship
+   ↓
+80m — Deep Ocean
+
+and then in another new dive, its like this
+
+Surface
+   ↓
+20m — Seagrass
+   ↓
+40m — Coral Reef
+   ↓
+60m — Sunken Ship
+   ↓
+80m — Volcanic Zone
+
+theme of the run changes between zones
+

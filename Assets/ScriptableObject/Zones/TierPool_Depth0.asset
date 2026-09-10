@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39db8fc50a7d964419b3ef5c862c41ee, type: 3}
-  m_Name: Zone_Seaweed Fields
+  m_Script: {fileID: 11500000, guid: bb4718017fc705944b77636639a66d3c, type: 3}
+  m_Name: TierPool_Depth0
   m_EditorClassIdentifier: 
-  zoneName: New Zone
-  flavorText: 
-  minDepth: 20
-  fishPool: []
-  ambientTint: {r: 1, g: 1, b: 1, a: 1}
-  environmentPrefab: {fileID: 0}
+  tierLabel: Depth0
+  candidates:
+  - {fileID: 11400000, guid: 3083a9df12ee3c5448213f2d5c94fe8d, type: 2}
+  - {fileID: 11400000, guid: 42dc9637393a6b644bde25e50fd2f323, type: 2}

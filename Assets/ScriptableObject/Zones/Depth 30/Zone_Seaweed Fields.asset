@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39db8fc50a7d964419b3ef5c862c41ee, type: 3}
+  m_Name: Zone_Seaweed Fields
+  m_EditorClassIdentifier: 
+  zoneName: Seaweed Fields
+  flavorText: 
+  minDepth: 30
+  fishPool:
+  - fish: {fileID: 11400000, guid: 10cf901e3bbb7df47b6f235475c5ccf2, type: 2}
+    weightOverride: 0
+  - fish: {fileID: 11400000, guid: df944a8d76075954a95a50fd583e7378, type: 2}
+    weightOverride: 0
+  - fish: {fileID: 11400000, guid: 785ee0d97908c904499b80d68555ad80, type: 2}
+    weightOverride: 0
+  - fish: {fileID: 11400000, guid: 2a899cd29ea795b488cf58473a9d1ecb, type: 2}
+    weightOverride: 0
+  ambientTint: {r: 1, g: 1, b: 1, a: 1}
+  environmentPrefab: {fileID: 0}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab089e0e64f42a49aa1d75049d26040, type: 3}
   m_Name: Fish_Clown
   m_EditorClassIdentifier: 
-  fishName: New Fish
+  fishName: Clown Fish
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 329609891033304582, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
   fishPrefab: {fileID: 0}
   cargoSlots: 1
   sellValue: 10

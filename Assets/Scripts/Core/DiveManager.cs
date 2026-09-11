@@ -93,7 +93,6 @@ public class DiveManager : MonoBehaviour
             CurrentZone = active;
             OnZoneChanged?.Invoke(previous, CurrentZone);
         }
-        print(CurrentZone);
     }
 
     /// <summary>

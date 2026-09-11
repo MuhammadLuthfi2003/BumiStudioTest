@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 253497895}
   - component: {fileID: 253497900}
   - component: {fileID: 253497899}
+  - component: {fileID: 253497901}
   m_Layer: 0
   m_Name: Submarine
   m_TagString: Player
@@ -798,6 +799,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &253497901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253497894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9e9695643a6904d9fa2c03289eb1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 253497895}
+  fishLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  boxSize: {x: 2, y: 2, z: 2}
+  boxOffset: {x: 0, y: 0, z: 2}
 --- !u!1 &256408760
 GameObject:
   m_ObjectHideFlags: 0

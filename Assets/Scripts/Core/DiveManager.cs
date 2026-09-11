@@ -2,16 +2,12 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Core Loop:
+/// Orchestrates a single dive per the GDD's core loop:
 /// Prepare > Dive > Explore > Catch Fish > Manage Resources > Continue or Return.
 ///
-/// This script owns run generation and depth/zone tracking. Other systems
-/// (fish spawner, resource manager, environment/ambient renderer, UI) subscribe
-/// to its events rather than polling — keeps this decoupled the same way
-/// SubmarineController.OnDistanceMoved keeps movement decoupled from fuel.
-///
-/// Depth convention: depth increases as the submarine's Y position drops below
-/// the surface reference. Depth = surfaceY - submarine.position.y, clamped to >= 0.
+/// This script owns run generation and the active-zone lookup. Depth itself is
+/// tracked by a separate DepthTracker component, DiveManager just listens to it
+/// and figures out which zone that depth falls into.
 /// </summary>
 public class DiveManager : MonoBehaviour
 {
@@ -20,13 +16,9 @@ public class DiveManager : MonoBehaviour
              "matter — RunZoneGenerator sorts pools by each candidate ZoneData's minDepth.")]
     [SerializeField] private ZoneTierPool[] tierPools;
 
-    [Header("Depth Tracking")]
-    [Tooltip("The submarine's transform. Its Y position below surfaceReference determines depth.")]
-    [SerializeField] private Transform submarine;
-
-    [Tooltip("World Y position that counts as 0m depth (the surface). If left unset, the " +
-             "submarine's Y position at the moment StartNewRun() is called is used instead.")]
-    [SerializeField] private Transform surfaceReference;
+    [Header("Depth")]
+    [Tooltip("Reports the submarine's current depth. DiveManager subscribes to its OnDepthChanged event.")]
+    [SerializeField] private DepthTracker depthTracker;
 
     [Header("Debug")]
     [Tooltip("Set for reproducible testing. Leave null for a random run each time.")]
@@ -38,7 +30,7 @@ public class DiveManager : MonoBehaviour
     /// <summary>The zone the submarine is currently inside, based on current depth.</summary>
     public ZoneData CurrentZone { get; private set; }
 
-    /// <summary>Current depth in meters (0 = surface).</summary>
+    /// <summary>Current depth in meters (0 = surface), mirrored from DepthTracker for convenience.</summary>
     public float CurrentDepth { get; private set; }
 
     /// <summary>Fired once, right after a new run's zones are generated.</summary>
@@ -47,32 +39,34 @@ public class DiveManager : MonoBehaviour
     /// <summary>Fired whenever the active zone changes (previousZone, newZone).</summary>
     public event Action<ZoneData, ZoneData> OnZoneChanged;
 
-    /// <summary>Fired every frame with the latest depth value, for UI/HUD binding.</summary>
-    public event Action<float> OnDepthChanged;
-
     private RunZoneGenerator _generator;
-    private float _surfaceY;
-    private bool _diveActive;
+
+    private void OnEnable()
+    {
+        if (depthTracker != null)
+            depthTracker.OnDepthChanged += HandleDepthChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (depthTracker != null)
+            depthTracker.OnDepthChanged -= HandleDepthChanged;
+    }
 
     /// <summary>
     /// Call this at the start of a dive, after pre-dive upgrades are applied and before
-    /// the player gains control. Generates this run's four zones and resets depth to 0.
+    /// the player gains control. Generates this run's zones and starts depth tracking.
     /// </summary>
     public void StartNewRun()
     {
         _generator = new RunZoneGenerator(debugSeed);
         RunZones = _generator.Generate(tierPools);
-
-        _surfaceY = surfaceReference != null
-            ? surfaceReference.position.y
-            : (submarine != null ? submarine.position.y : 0f);
-
         CurrentZone = null;
-        CurrentDepth = 0f;
-        _diveActive = true;
 
         OnRunGenerated?.Invoke(RunZones);
-        EvaluateDepth(); // sets CurrentZone for depth 0 (usually null, until first tier's minDepth)
+
+        if (depthTracker != null)
+            depthTracker.BeginTracking(); // fires OnDepthChanged(0), which evaluates the zone below
     }
 
     /// <summary>
@@ -81,22 +75,14 @@ public class DiveManager : MonoBehaviour
     /// </summary>
     public void EndRun()
     {
-        _diveActive = false;
+        depthTracker?.StopTracking();
         CurrentZone = null;
         CurrentDepth = 0f;
     }
 
-    private void Update()
+    private void HandleDepthChanged(float depth)
     {
-        if (!_diveActive || submarine == null) return;
-        EvaluateDepth();
-    }
-
-    private void EvaluateDepth()
-    {
-        float depth = Mathf.Max(0f, _surfaceY - submarine.position.y);
         CurrentDepth = depth;
-        OnDepthChanged?.Invoke(depth);
 
         if (_generator == null) return;
 
@@ -107,6 +93,7 @@ public class DiveManager : MonoBehaviour
             CurrentZone = active;
             OnZoneChanged?.Invoke(previous, CurrentZone);
         }
+        print(CurrentZone);
     }
 
     /// <summary>

@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Pufferfish
   description: 
   icon: {fileID: 7827392364389532302, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 2572524148994952212, guid: ae1dc45f87aae7d47a68f8378ed9430c, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

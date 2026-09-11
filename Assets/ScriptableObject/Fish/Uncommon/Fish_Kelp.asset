@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Kelp Fish
   description: 
   icon: {fileID: 197736034494585986, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 2143717922765855729, guid: 98800e503cb36b0428d4a5f92e552cad, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

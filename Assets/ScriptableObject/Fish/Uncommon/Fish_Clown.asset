@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Clown Fish
   description: 
   icon: {fileID: 329609891033304582, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 6523935589122628925, guid: e3ad6378e2c95cd4aa5af6e7655e9ae6, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

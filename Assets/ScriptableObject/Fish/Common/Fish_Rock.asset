@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Rock Fish
   description: 
   icon: {fileID: -6901675366284219937, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 4683010833054723394, guid: 7e885f8515bb0c44b8709079170f5c9f, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

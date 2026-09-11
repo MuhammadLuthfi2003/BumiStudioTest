@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Striped Fish
   description: 
   icon: {fileID: -1752557724276160970, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 8484594918542123362, guid: 19a855ffedbbc84479531cf356fd65d3, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Cod
   description: 
   icon: {fileID: -1763009300722512672, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 626855620842772541, guid: 21395300c442bca4da9db48763d569ce, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

@@ -5,7 +5,7 @@ using UnityEngine;
 /// Orchestrates a single dive per the GDD's core loop:
 /// Prepare > Dive > Explore > Catch Fish > Manage Resources > Continue or Return.
 ///
-/// This script owns run generation and the active-zone lookup. Depth itself is
+/// This script owns run generation and the active zone lookup. Depth itself is
 /// tracked by a separate DepthTracker component, DiveManager just listens to it
 /// and figures out which zone that depth falls into.
 /// </summary>

@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Gold Fish
   description: 
   icon: {fileID: -7800831024122025109, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 3587821550447261693, guid: c22a36f3b9edcf844982a373dce844f6, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

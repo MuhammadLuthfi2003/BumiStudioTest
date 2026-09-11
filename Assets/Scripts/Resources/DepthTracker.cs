@@ -7,7 +7,7 @@ using UnityEngine;
 /// reference point: depth = surfaceY - submarine.position.y, clamped to >= 0.
 ///
 /// Kept as its own component (rather than folded into DiveManager) so depth is
-/// available to any system that needs it — HUD, resource manager, ambience — the
+/// available to any system that needs it, like HUD, resource manager, ambience the
 /// same way SubmarineController.OnDistanceMoved is kept independent of fuel logic.
 /// </summary>
 public class DepthTracker : MonoBehaviour

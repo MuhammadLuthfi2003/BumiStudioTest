@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Lapis Fish
   description: 
   icon: {fileID: 8954125262514960915, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 1747951780721391827, guid: 23ef47079eef95147bbea5f472505665, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   fishName: Ruby Fish
   description: 
   icon: {fileID: 4284753593074200771, guid: 4ba3dc9ac6f67114dadfa200a58aa10a, type: 3}
-  fishPrefab: {fileID: 0}
+  fishPrefab: {fileID: 8573442605040254483, guid: aa00589b3f95b984f876fcc3478a7a43, type: 3}
   cargoSlots: 1
   sellValue: 10
   rarityWeight: 1

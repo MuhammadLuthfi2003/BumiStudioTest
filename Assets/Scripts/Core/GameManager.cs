@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] DiveManager diveManager;
     [SerializeField] ResourceManager resourceManager;
 
+    [Header("Fish Spawn Areas")]
+    [Tooltip("One FishSpawnArea per depth tier, ordered shallow to deep to match DiveManager.RunZones.")]
+    [SerializeField] private FishSpawnArea[] spawnAreas;
+
     // current game state
     public RunStates currentState = RunStates.PreDive;
 
@@ -46,10 +50,22 @@ public class GameManager : MonoBehaviour
 
     private void HandleRunGenerated(ZoneData[] zones)
     {
-        // DEBUG: Print out generated zones
-        // e.g. build a depth-chart UI, pre-warm environment prefabs, log the run's theme sequence
-        foreach (var zone in zones)
-            Debug.Log($"{zone.zoneName} at {zone.minDepth}m");
+        if (zones == null) return;
+
+        int count = Mathf.Min(zones.Length, spawnAreas.Length);
+
+        if (zones.Length != spawnAreas.Length)
+        {
+            Debug.LogWarning($"GameManager: {zones.Length} zones generated but " +
+                              $"{spawnAreas.Length} spawn areas configured. Only the first {count} will be populated.");
+        }
+
+        for (int i = 0; i < count; i++)
+            spawnAreas[i]?.AssignZone(zones[i]);
+
+        // Clear any leftover areas beyond what this run generated (e.g. array mismatch).
+        for (int i = count; i < spawnAreas.Length; i++)
+            spawnAreas[i]?.ClearAllFish();
     }
 
     // general start run sequence

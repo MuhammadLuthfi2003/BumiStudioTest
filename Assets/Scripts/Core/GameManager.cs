@@ -12,16 +12,20 @@ public class GameManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] DiveManager diveManager;
     [SerializeField] ResourceManager resourceManager;
+    [SerializeField] CameraManager cameraManager;
 
     [Header("Fish Spawn Areas")]
     [Tooltip("One FishSpawnArea per depth tier, ordered shallow to deep to match DiveManager.RunZones.")]
     [SerializeField] private FishSpawnArea[] spawnAreas;
+
+
 
     // current game state
     public RunStates currentState = RunStates.PreDive;
 
     public DiveManager DiveManager { get { return diveManager; } }
     public ResourceManager ResourceManager { get { return resourceManager; } }
+    public CameraManager CameraManager { get { return cameraManager; } }
 
     // The public static reference used by other scripts to access this instance
     public static GameManager Instance { get; private set; }
@@ -48,6 +52,7 @@ public class GameManager : MonoBehaviour
         diveManager.OnRunGenerated -= HandleRunGenerated;
     }
 
+    // stores the generated zones into spawn areas
     private void HandleRunGenerated(ZoneData[] zones)
     {
         if (zones == null) return;
@@ -80,7 +85,30 @@ public class GameManager : MonoBehaviour
         {
             diveManager.StartNewRun();
         }
+
+        if (cameraManager != null)
+        {
+            cameraManager.StartTracking();
+        }
     }
 
+    // general stop run sequence
+    public void StopRun()
+    {
+        if (resourceManager != null)
+        {
+            resourceManager.ReturnToSurface();
+        }
+
+        if (diveManager != null)
+        {
+            diveManager.EndRun();
+        }
+
+        if (cameraManager != null)
+        {
+            cameraManager.BackToSurface();
+        }
+    }
 
 }

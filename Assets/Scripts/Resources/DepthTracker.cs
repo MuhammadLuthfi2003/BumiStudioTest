@@ -60,7 +60,6 @@ public class DepthTracker : MonoBehaviour
 
         float depth = Mathf.Max(0f, _surfaceY - submarine.position.y);
         CurrentDepth = depth;
-        print(CurrentDepth);
         OnDepthChanged?.Invoke(depth);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class ResourceManager : MonoBehaviour
 {
@@ -49,6 +50,16 @@ public class ResourceManager : MonoBehaviour
     /// <summary>Fired when a dive ends in failure (oxygen depleted). All cargo is lost.</summary>
     public event Action OnDiveFailed;
 
+    // private variables
+    private float _surfaceY;
+    private Transform submarine;
+
+    private void Start()
+    {
+        _surfaceY = GameManager.Instance.Surface.position.y;
+        submarine = GameManager.Instance.Submarine;
+    }
+
     private void Update()
     {
         if (!IsDiving)
@@ -56,6 +67,10 @@ public class ResourceManager : MonoBehaviour
 
         if (CurrentOxygen <= 0f)
             return; // already handled by DepleteOxygenAndCheckFailure this frame
+
+        // check if submarine is higher than surface
+        if (submarine.position.y >= _surfaceY)
+            return;
 
         DepleteOxygen(oxygenDepletionRate * Time.deltaTime);
     }

@@ -251,6 +251,8 @@ MonoBehaviour:
   - {fileID: 305161900}
   - {fileID: 1715880522}
   - {fileID: 1771070943}
+  surfaceRefrence: {fileID: 1036237568}
+  submarine: {fileID: 253497898}
   currentState: 0
 --- !u!4 &73088716
 Transform:
@@ -823,8 +825,8 @@ Transform:
   m_GameObject: {fileID: 256408760}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04, y: -12, z: 0}
-  m_LocalScale: {x: 24.328184, y: 13.927007, z: 1}
+  m_LocalPosition: {x: 0.76, y: -12, z: 0}
+  m_LocalScale: {x: 53.33362, y: 13.927007, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1848235985}
@@ -4169,8 +4171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab53e25e354b894bb72175ef3c480e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  submarine: {fileID: 253497898}
-  surfaceReference: {fileID: 1036237568}
 --- !u!1 &2126641229
 GameObject:
   m_ObjectHideFlags: 0

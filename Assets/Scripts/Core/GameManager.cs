@@ -18,7 +18,14 @@ public class GameManager : MonoBehaviour
     [Tooltip("One FishSpawnArea per depth tier, ordered shallow to deep to match DiveManager.RunZones.")]
     [SerializeField] private FishSpawnArea[] spawnAreas;
 
+    [Header("Surface Refrence")]
+    [Tooltip("World Y position that counts as 0m depth. If left unset, the submarine's Y " +
+             "position at the moment BeginTracking() is called is used instead.")]
+    [SerializeField] private Transform surfaceRefrence;
 
+    [Header("Player Refrence")]
+    [Tooltip("The player's submarine")]
+    [SerializeField] private Transform submarine;
 
     // current game state
     public RunStates currentState = RunStates.PreDive;
@@ -26,6 +33,10 @@ public class GameManager : MonoBehaviour
     public DiveManager DiveManager { get { return diveManager; } }
     public ResourceManager ResourceManager { get { return resourceManager; } }
     public CameraManager CameraManager { get { return cameraManager; } }
+
+    public Transform Submarine { get { return submarine; } }
+
+    public Transform Surface {  get { return surfaceRefrence; } }
 
     // The public static reference used by other scripts to access this instance
     public static GameManager Instance { get; private set; }
@@ -40,6 +51,20 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+
+        // backup handler if surfacerefrence isnt registered
+        // set itself as its surfacerefrence
+        if (surfaceRefrence == null)
+        {
+            surfaceRefrence = transform;
+        }
+
+        // backup handler if submarine isnt registered
+        if (submarine == null)
+        {
+            SubmarineController controller = FindAnyObjectByType<SubmarineController>();
+            submarine = controller.transform;
+        }
     }
 
     private void OnEnable()
@@ -90,6 +115,8 @@ public class GameManager : MonoBehaviour
         {
             cameraManager.StartTracking();
         }
+
+        currentState = RunStates.Dive;
     }
 
     // general stop run sequence
@@ -109,6 +136,8 @@ public class GameManager : MonoBehaviour
         {
             cameraManager.BackToSurface();
         }
+
+        currentState = RunStates.PreDive;
     }
 
 }

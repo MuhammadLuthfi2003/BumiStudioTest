@@ -12,14 +12,6 @@ using UnityEngine;
 /// </summary>
 public class DepthTracker : MonoBehaviour
 {
-    [Header("References")]
-    [Tooltip("The submarine's transform. Its Y position below the surface reference determines depth.")]
-    [SerializeField] private Transform submarine;
-
-    [Tooltip("World Y position that counts as 0m depth. If left unset, the submarine's Y " +
-             "position at the moment BeginTracking() is called is used instead.")]
-    [SerializeField] private Transform surfaceReference;
-
     /// <summary>Current depth in meters (0 = surface). Updated every frame while tracking.</summary>
     public float CurrentDepth { get; private set; }
 
@@ -30,6 +22,12 @@ public class DepthTracker : MonoBehaviour
     public event Action<float> OnDepthChanged;
 
     private float _surfaceY;
+    private Transform submarine;
+
+    private void Start()
+    {
+        submarine = GameManager.Instance.Submarine;
+    }
 
     /// <summary>
     /// Call this at the start of a dive (e.g. from DiveManager.StartNewRun()).
@@ -37,9 +35,7 @@ public class DepthTracker : MonoBehaviour
     /// </summary>
     public void BeginTracking()
     {
-        _surfaceY = surfaceReference != null
-            ? surfaceReference.position.y
-            : (submarine != null ? submarine.position.y : 0f);
+        _surfaceY = GameManager.Instance.Surface.position.y;
 
         IsTracking = true;
         CurrentDepth = 0f;

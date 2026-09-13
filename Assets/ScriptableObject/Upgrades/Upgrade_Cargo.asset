@@ -12,7 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1e312d3e73028458a5c391aa93ac13, type: 3}
   m_Name: Upgrade_Cargo
   m_EditorClassIdentifier: 
-  upgradeName: New Upgrade
+  upgradeName: Cargo Upgrade
   description: 
-  type: 0
-  levels: []
+  type: 1
+  levels:
+  - cost: 70
+    value: 7
+  - cost: 100
+    value: 10
+  - cost: 140
+    value: 13
+  - cost: 200
+    value: 15

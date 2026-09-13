@@ -16,9 +16,8 @@ public class DiveManager : MonoBehaviour
              "matter — RunZoneGenerator sorts pools by each candidate ZoneData's minDepth.")]
     [SerializeField] private ZoneTierPool[] tierPools;
 
-    [Header("Depth")]
-    [Tooltip("Reports the submarine's current depth. DiveManager subscribes to its OnDepthChanged event.")]
-    [SerializeField] private DepthTracker depthTracker;
+    //Reports the submarine's current depth. DiveManager subscribes to its OnDepthChanged event.
+    private DepthTracker depthTracker;
 
     [Header("Debug")]
     [Tooltip("Set for reproducible testing. Leave null for a random run each time.")]
@@ -41,8 +40,10 @@ public class DiveManager : MonoBehaviour
 
     private RunZoneGenerator _generator;
 
-    private void OnEnable()
+    private void Start()
     {
+        depthTracker = GameManager.Instance != null ? GameManager.Instance.DepthTracker : null;
+
         if (depthTracker != null)
             depthTracker.OnDepthChanged += HandleDepthChanged;
     }

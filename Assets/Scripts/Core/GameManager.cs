@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] DiveManager diveManager;
     [SerializeField] ResourceManager resourceManager;
     [SerializeField] CameraManager cameraManager;
+    [SerializeField] UpgradeManager upgradeManager;
+    [SerializeField] CurrencyManager currencyManager;
 
     [Header("Fish Spawn Areas")]
     [Tooltip("One FishSpawnArea per depth tier, ordered shallow to deep to match DiveManager.RunZones.")]
@@ -27,12 +29,22 @@ public class GameManager : MonoBehaviour
     [Tooltip("The player's submarine")]
     [SerializeField] private Transform submarine;
 
+    [Header("Depth Tracker")]
+    [Tooltip("Object Refrence used to track submarine's current depth")]
+    [SerializeField] private DepthTracker depthTracker;
+
+    [Header("Current State")]
     // current game state
     public RunStates currentState = RunStates.PreDive;
 
     public DiveManager DiveManager { get { return diveManager; } }
     public ResourceManager ResourceManager { get { return resourceManager; } }
     public CameraManager CameraManager { get { return cameraManager; } }
+
+    public UpgradeManager UpgradeManager { get { return upgradeManager; } }
+    public CurrencyManager CurrencyManager { get { return currencyManager; } }
+
+    public DepthTracker DepthTracker { get { return depthTracker; } }
 
     public Transform Submarine { get { return submarine; } }
 

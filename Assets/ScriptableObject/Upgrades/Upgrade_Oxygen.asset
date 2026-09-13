@@ -12,7 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1e312d3e73028458a5c391aa93ac13, type: 3}
   m_Name: Upgrade_Oxygen
   m_EditorClassIdentifier: 
-  upgradeName: New Upgrade
+  upgradeName: Oxygen Upgrade
   description: 
   type: 0
-  levels: []
+  levels:
+  - cost: 50
+    value: 120
+  - cost: 80
+    value: 140
+  - cost: 120
+    value: 160
+  - cost: 150
+    value: 180

@@ -22,6 +22,11 @@ public class ResourceManager : MonoBehaviour
 
     /// <summary>Current oxygen remaining. Read-only from outside; drains automatically while diving.</summary>
     public float CurrentOxygen { get; private set; }
+    /// <summary>Current cargo stat, read-only</summary>
+
+    /// temp attributes to get the first default value
+    public float CargoCapacity => cargoCapacity;
+    public float MaxOxygen => maxOxygen;
 
     /// <summary>True while a dive is in progress (between StartDive and ReturnToSurface/failure).</summary>
     public bool IsDiving { get; private set; }

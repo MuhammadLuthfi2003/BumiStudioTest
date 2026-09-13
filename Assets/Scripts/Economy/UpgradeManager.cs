@@ -28,7 +28,7 @@ public class UpgradeManager : MonoBehaviour
     // current level per track; 0 = not yet purchased (base stats).
     private readonly Dictionary<UpgradeData, int> _levels = new Dictionary<UpgradeData, int>();
 
-    private void Awake()
+    private void Start()
     {
         currencyManager = GameManager.Instance != null ? GameManager.Instance.CurrencyManager : null;
         resourceManager = GameManager.Instance != null ? GameManager.Instance.ResourceManager : null;
@@ -50,9 +50,24 @@ public class UpgradeManager : MonoBehaviour
         return _levels.TryGetValue(upgrade, out int level) ? level : 0;
     }
 
+    /// <summary>Overload function of GetCurrentLevel</summary>
+    public int GetCurrentLevel(UpgradeType type)
+    {
+        UpgradeData upgrade = GetUpgradeData(type);
+        if (upgrade == null) return 0;
+        return _levels.TryGetValue(upgrade, out int level) ? level : 0;
+    }
+
     /// <summary>Whether this track has reached its max level (levels.Length).</summary>
     public bool IsMaxLevel(UpgradeData upgrade)
     {
+        if (upgrade == null) return true;
+        return GetCurrentLevel(upgrade) >= upgrade.MaxLevel;
+    }
+    /// <summary>Overload function of IsMaxLevel with UpgradeType Param</summary>
+    public bool IsMaxLevel(UpgradeType type)
+    {
+        UpgradeData upgrade = GetUpgradeData(type);
         if (upgrade == null) return true;
         return GetCurrentLevel(upgrade) >= upgrade.MaxLevel;
     }
@@ -60,8 +75,9 @@ public class UpgradeManager : MonoBehaviour
     /// <summary>
     /// Cost to purchase the NEXT level of this track, or -1 if already at max level.
     /// </summary>
-    public int GetNextLevelCost(UpgradeData upgrade)
+    public int GetNextLevelCost(UpgradeType type)
     {
+        UpgradeData upgrade = GetUpgradeData(type);
         if (upgrade == null || IsMaxLevel(upgrade))
             return -1;
 
@@ -70,12 +86,26 @@ public class UpgradeManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Get UpgradeLevel next stat and cost, by returning the UpgradeLevel from the upgrades[] array
+    /// </summary>
+    public UpgradeLevel GetNextLevelStat(UpgradeType type)
+    {
+        UpgradeData upgrade = GetUpgradeData(type);
+        if (upgrade == null || IsMaxLevel(upgrade))
+            return null;
+
+        UpgradeLevel next = upgrade.GetLevel(GetCurrentLevel(upgrade) + 1);
+        return next;
+    }
+
+    /// <summary>
     /// Attempts to purchase the next level of the given upgrade track.
     /// Fails if already at max level, or the player can't afford it.
     /// Returns true on success, after applying the new stat to ResourceManager.
     /// </summary>
-    public bool TryPurchaseUpgrade(UpgradeData upgrade)
+    public bool TryPurchaseUpgrade(UpgradeType type)
     {
+        UpgradeData upgrade = GetUpgradeData(type);
         if (upgrade == null)
             return false;
 
@@ -92,8 +122,10 @@ public class UpgradeManager : MonoBehaviour
             return false;
 
         if (currencyManager == null || !currencyManager.TrySpend(nextLevel.cost))
+        {
+            Debug.LogWarning("Insufficient Money");
             return false;
-
+        }
         _levels[upgrade] = nextLevelNumber;
         ApplyUpgrade(upgrade, nextLevel);
 
@@ -120,5 +152,20 @@ public class UpgradeManager : MonoBehaviour
                 resourceManager.SetCargoCapacity(Mathf.RoundToInt(level.value));
                 break;
         }
+    }
+
+    /// <summary> Helper function to get upgrade data</summary>
+    private UpgradeData GetUpgradeData(UpgradeType type)
+    {
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            if (upgrades[i].type == type)
+            {
+                return upgrades[i];
+            }
+        }
+
+        Debug.LogWarning("Upgrade Data Not Found");
+        return null;
     }
 }

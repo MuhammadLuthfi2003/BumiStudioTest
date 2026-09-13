@@ -2394,7 +2394,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 625347820}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1880300503}
+        m_TargetAssemblyTypeName: UpgradeDisplay, Assembly-CSharp
+        m_MethodName: TryUpgradeCargo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &625347820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5947,6 +5959,7 @@ GameObject:
   - component: {fileID: 1880300500}
   - component: {fileID: 1880300502}
   - component: {fileID: 1880300501}
+  - component: {fileID: 1880300503}
   m_Layer: 5
   m_Name: Upgrade
   m_TagString: Untagged
@@ -6013,6 +6026,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880300499}
   m_CullTransparentMesh: 1
+--- !u!114 &1880300503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880300499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ae13ff9b4715b4eb6c74d4cded0c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentOxygenText: {fileID: 1082776524}
+  nextOxygenText: {fileID: 438715940}
+  oxygenUpgradePriceText: {fileID: 1736584204}
+  currentCargoText: {fileID: 1783594496}
+  nextCargoText: {fileID: 2026109363}
+  cargoUpgradePriceText: {fileID: 1911669711}
 --- !u!1 &1911669709
 GameObject:
   m_ObjectHideFlags: 0
@@ -6530,7 +6561,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1991449996}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1880300503}
+        m_TargetAssemblyTypeName: UpgradeDisplay, Assembly-CSharp
+        m_MethodName: TryUpgradeOxygen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1991449996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6750,7 +6793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ced31aec2ef3349be2b7b2e6ab06d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 0
+  startingMoney: 500
 --- !u!1 &2126641229
 GameObject:
   m_ObjectHideFlags: 0

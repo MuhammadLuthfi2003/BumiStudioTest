@@ -287,6 +287,7 @@ MonoBehaviour:
   cameraManager: {fileID: 519420033}
   upgradeManager: {fileID: 585503699}
   currencyManager: {fileID: 2118830482}
+  uiManager: {fileID: 909415767}
   spawnAreas:
   - {fileID: 16956300}
   - {fileID: 305161900}
@@ -295,6 +296,7 @@ MonoBehaviour:
   surfaceRefrence: {fileID: 1036237568}
   submarine: {fileID: 253497898}
   depthTracker: {fileID: 1963119282}
+  playerTeleport: {fileID: 715669651}
   currentState: 0
 --- !u!4 &73088716
 Transform:
@@ -3025,6 +3027,7 @@ GameObject:
   - component: {fileID: 909415765}
   - component: {fileID: 909415764}
   - component: {fileID: 909415763}
+  - component: {fileID: 909415767}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -3118,6 +3121,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &909415767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909415762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b811fa1ce829148b69585cc8429ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradePanel: {fileID: 1880300499}
+  CurrencyPanel: {fileID: 1298915620}
+  ResourcePanel: {fileID: 625770734}
 --- !u!1 &916278701
 GameObject:
   m_ObjectHideFlags: 0
@@ -4448,6 +4466,7 @@ GameObject:
   - component: {fileID: 1298915621}
   - component: {fileID: 1298915623}
   - component: {fileID: 1298915622}
+  - component: {fileID: 1298915624}
   m_Layer: 5
   m_Name: Money
   m_TagString: Untagged
@@ -4513,6 +4532,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298915620}
   m_CullTransparentMesh: 1
+--- !u!114 &1298915624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298915620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69527f6d6ad138a41abd7253e4f37a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyDisplay: {fileID: 1796970589}
 --- !u!1 &1429641906
 GameObject:
   m_ObjectHideFlags: 0

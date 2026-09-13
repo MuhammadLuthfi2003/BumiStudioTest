@@ -36,8 +36,6 @@ public class CurrencyManager : MonoBehaviour
 
         Instance = this;
         CurrentMoney = startingMoney;
-
-
     }
 
     private void Start()

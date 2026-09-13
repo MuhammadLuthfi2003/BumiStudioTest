@@ -108,7 +108,7 @@ public class ResourceManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Voluntarily ends the dive. Sells all caught fish and reports the money earned.
+    /// Voluntarily ends the dive.
     /// Does nothing if not currently diving.
     /// </summary>
     public void ReturnToSurface()
@@ -116,12 +116,7 @@ public class ResourceManager : MonoBehaviour
         if (!IsDiving)
             return;
 
-        int moneyEarned = _caughtFish.Sum(f => f.sellValue);
-        _caughtFish.Clear();
         IsDiving = false;
-
-        OnCargoChanged?.Invoke(UsedCargoSlots, cargoCapacity);
-        OnDiveSuccess?.Invoke(moneyEarned);
     }
 
     // ---- Fishing / cargo ----
@@ -151,6 +146,16 @@ public class ResourceManager : MonoBehaviour
         if (removed)
             OnCargoChanged?.Invoke(UsedCargoSlots, cargoCapacity);
         return removed;
+    }
+
+    /// <summary>Sells all fish currently held in player inventory</summary>
+    public void SellAllFish()
+    {
+        int moneyEarned = _caughtFish.Sum(f => f.sellValue);
+        _caughtFish.Clear();
+
+        OnCargoChanged?.Invoke(UsedCargoSlots, cargoCapacity);
+        OnDiveSuccess?.Invoke(moneyEarned);
     }
 
     // ---- Oxygen ----

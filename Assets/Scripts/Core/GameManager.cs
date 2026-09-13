@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum RunStates
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CameraManager cameraManager;
     [SerializeField] UpgradeManager upgradeManager;
     [SerializeField] CurrencyManager currencyManager;
+    [SerializeField] UIManager uiManager;
 
     [Header("Fish Spawn Areas")]
     [Tooltip("One FishSpawnArea per depth tier, ordered shallow to deep to match DiveManager.RunZones.")]
@@ -32,6 +34,9 @@ public class GameManager : MonoBehaviour
     [Header("Depth Tracker")]
     [Tooltip("Object Refrence used to track submarine's current depth")]
     [SerializeField] private DepthTracker depthTracker;
+
+    [Header("Player Teleport")]
+    [SerializeField] private PlayerTeleport playerTeleport;
 
     [Header("Current State")]
     // current game state
@@ -52,6 +57,9 @@ public class GameManager : MonoBehaviour
 
     // The public static reference used by other scripts to access this instance
     public static GameManager Instance { get; private set; }
+
+    /// <summary>Fired after fail-state teardown completes, so UI can show a "Dive Failed" panel.</summary>
+    public event Action OnRunFailed;
 
     private void Awake()
     {
@@ -82,11 +90,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         diveManager.OnRunGenerated += HandleRunGenerated;
+        resourceManager.OnDiveFailed += HandleDiveFailed;
     }
 
     private void OnDisable()
     {
         diveManager.OnRunGenerated -= HandleRunGenerated;
+        resourceManager.OnDiveFailed -= HandleDiveFailed;
     }
 
     // stores the generated zones into spawn areas
@@ -110,6 +120,28 @@ public class GameManager : MonoBehaviour
             spawnAreas[i]?.ClearAllFish();
     }
 
+    private void HandleDiveFailed()
+    {
+        currentState = RunStates.Lose;
+
+        if (diveManager != null)
+            diveManager.EndRun();
+
+        if (cameraManager != null)
+            cameraManager.BackToSurface();
+
+        if (playerTeleport != null)
+            playerTeleport.TeleportPlayerToLobby();
+
+        if (uiManager != null)
+        {
+            uiManager.HideGameplayPanel();
+            uiManager.ShowLobbyPanel();
+        }
+
+        OnRunFailed?.Invoke();
+    }
+
     // general start run sequence
     public void StartRun()
     {
@@ -126,6 +158,12 @@ public class GameManager : MonoBehaviour
         if (cameraManager != null)
         {
             cameraManager.StartTracking();
+        }
+
+        if (uiManager != null)
+        {
+            uiManager.HideLobbyPanel();
+            uiManager.ShowGameplayPanel();
         }
 
         currentState = RunStates.Dive;
@@ -147,6 +185,12 @@ public class GameManager : MonoBehaviour
         if (cameraManager != null)
         {
             cameraManager.BackToSurface();
+        }
+
+        if (uiManager != null)
+        {
+            uiManager.HideGameplayPanel();
+            uiManager.ShowLobbyPanel();
         }
 
         currentState = RunStates.PreDive;

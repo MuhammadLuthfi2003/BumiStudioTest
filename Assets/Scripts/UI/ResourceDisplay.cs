@@ -36,6 +36,7 @@ public class ResourceDisplay : MonoBehaviour
         {
             depthTracker.OnDepthChanged += SetCurrentDepth;
         }
+
     }
 
     private void OnDestroy()

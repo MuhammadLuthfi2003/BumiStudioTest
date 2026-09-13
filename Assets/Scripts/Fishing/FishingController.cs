@@ -24,7 +24,7 @@ public class FishingController : MonoBehaviour
     public FishInstance DetectedFish { get; private set; }
 
     /// <summary>
-    /// Fired when the player tries to catch a fish but cargo is full (GDD step 3: "Fishing").
+    /// Fired when the player tries to catch a fish but cargo is full.
     /// UI should prompt the player to discard a fish via ResourceManager.DiscardFish, then
     /// call CompletePendingCatch() to retry, or CancelPendingCatch() if they back out.
     /// </summary>

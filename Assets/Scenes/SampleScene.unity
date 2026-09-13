@@ -814,9 +814,9 @@ MonoBehaviour:
   playerInput: {fileID: 253497895}
   fishLayer:
     serializedVersion: 2
-    m_Bits: 0
-  boxSize: {x: 2, y: 2, z: 2}
-  boxOffset: {x: 0, y: 0, z: 2}
+    m_Bits: 64
+  boxSize: {x: 2, y: 2}
+  boxOffset: {x: 0, y: 0}
 --- !u!1 &256408760
 GameObject:
   m_ObjectHideFlags: 0

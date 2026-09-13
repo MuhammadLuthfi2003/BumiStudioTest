@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,18 +11,37 @@ public class FishingController : MonoBehaviour
     [Header("Detection Settings")]
     [SerializeField] private LayerMask fishLayer;
 
-    [SerializeField] private Vector3 boxSize = new Vector3(2f, 2f, 2f);
+    [SerializeField] private Vector2 boxSize = new Vector2(2f, 2f);
 
-    [SerializeField] private Vector3 boxOffset = new Vector3(0f, 0f, 2f);
+    [SerializeField] private Vector2 boxOffset = Vector2.zero;
 
-    // Reusable array to avoid garbage collection
-    private readonly Collider[] results = new Collider[10];
+    private ContactFilter2D _contactFilter;
+    private readonly List<Collider2D> _results = new List<Collider2D>(10);
 
     private InputAction interactAction;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    /// <summary>The closest fish currently inside the detection box, or null if none.</summary>
+    public FishInstance DetectedFish { get; private set; }
+
+    /// <summary>
+    /// Fired when the player tries to catch a fish but cargo is full (GDD step 3: "Fishing").
+    /// UI should prompt the player to discard a fish via ResourceManager.DiscardFish, then
+    /// call CompletePendingCatch() to retry, or CancelPendingCatch() if they back out.
+    /// </summary>
+    public event Action<FishInstance> OnCargoFull;
+
+    /// <summary>Fired right after a fish is successfully caught and added to cargo.</summary>
+    public event Action<FishInstance> OnFishCaught;
+
+    private FishInstance _pendingCatch;
+
+    private void Awake()
     {
+        // contactfilter setup
+        _contactFilter = new ContactFilter2D();
+        _contactFilter.SetLayerMask(fishLayer);
+        _contactFilter.useTriggers = true;
+
         // playerinput setup
         if (playerInput == null)
             playerInput = GetComponent<PlayerInput>();
@@ -53,48 +74,103 @@ public class FishingController : MonoBehaviour
 
     private void TryCatchFish(InputAction.CallbackContext context)
     {
+        if (DetectedFish == null)
+            return;
 
+        AttemptCatch(DetectedFish);
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Tries to add the fish's data to cargo via ResourceManager. On success, removes the
+    /// fish from the world. On failure (cargo full), stashes it as a pending catch and lets
+    /// the UI resolve the discard decision before retrying.
+    /// </summary>
+    private void AttemptCatch(FishInstance instance)
+    {
+        print("attempt to catch fish " + instance.name);
+        if (instance == null || instance.Data == null)
+            return;
+
+        ResourceManager resourceManager = GameManager.Instance != null
+            ? GameManager.Instance.ResourceManager
+            : null;
+
+        if (resourceManager == null)
+        {
+            Debug.LogWarning("FishingController: no ResourceManager available to catch fish into.");
+            return;
+        }
+
+        bool caught = resourceManager.TryCatchFish(instance.Data);
+
+        if (caught)
+        {
+            _pendingCatch = null;
+            instance.Catch();
+            OnFishCaught?.Invoke(instance);
+        }
+        else
+        {
+            _pendingCatch = instance;
+            OnCargoFull?.Invoke(instance);
+        }
+    }
+
+    /// <summary>Call after the player discards a fish (ResourceManager.DiscardFish) to retry the catch.</summary>
+    public void CompletePendingCatch()
+    {
+        if (_pendingCatch != null)
+            AttemptCatch(_pendingCatch);
+    }
+
+    /// <summary>Call if the player cancels the discard prompt instead of freeing up cargo space.</summary>
+    public void CancelPendingCatch()
+    {
+        _pendingCatch = null;
+    }
+
+    private void Update()
     {
         DetectFish();
     }
 
     private void DetectFish()
     {
-        Vector3 center =
-        transform.position +
-        transform.TransformDirection(boxOffset);
+        Vector2 center = (Vector2)transform.position + boxOffset;
 
-        int hitCount = Physics.OverlapBoxNonAlloc(
-            center,
-            boxSize * 0.5f,
-            results,
-            transform.rotation,
-            fishLayer
-        );
+        int hitCount = Physics2D.OverlapBox(center, boxSize, transform.eulerAngles.z, _contactFilter, _results);
 
-        bool fishDetected = hitCount > 0;
+        DetectedFish = FindClosestFish(center, hitCount);
+    }
 
+    private FishInstance FindClosestFish(Vector2 center, int hitCount)
+    {
+        FishInstance closest = null;
+        float closestSqrDist = float.MaxValue;
 
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider2D hit = _results[i];
+            if (hit == null) continue;
+
+            FishInstance instance = hit.GetComponent<FishInstance>();
+            if (instance == null) continue;
+
+            float sqrDist = ((Vector2)hit.transform.position - center).sqrMagnitude;
+            if (sqrDist < closestSqrDist)
+            {
+                closestSqrDist = sqrDist;
+                closest = instance;
+            }
+        }
+
+        return closest;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-
-        Matrix4x4 oldMatrix = Gizmos.matrix;
-
-        Gizmos.matrix = Matrix4x4.TRS(
-            transform.position + transform.TransformDirection(boxOffset),
-            transform.rotation,
-            Vector3.one
-        );
-
-        Gizmos.DrawWireCube(Vector3.zero, boxSize);
-
-        Gizmos.matrix = oldMatrix;
+        Vector2 center = (Vector2)transform.position + boxOffset;
+        Gizmos.DrawWireCube(center, boxSize);
     }
 }

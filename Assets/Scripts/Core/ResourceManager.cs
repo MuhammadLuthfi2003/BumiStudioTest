@@ -131,6 +131,8 @@ public class ResourceManager : MonoBehaviour
         if (fish == null || !IsDiving)
             return false;
 
+        print(fish);
+
         if (UsedCargoSlots + fish.cargoSlots > cargoCapacity)
             return false;
 

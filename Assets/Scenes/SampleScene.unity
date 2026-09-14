@@ -369,7 +369,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 6203928520172976875, guid: 7b5a5f557c0d210499829359a8439c5f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -512,6 +512,7 @@ GameObject:
   m_Component:
   - component: {fileID: 189337902}
   - component: {fileID: 189337901}
+  - component: {fileID: 189337903}
   m_Layer: 0
   m_Name: Environments
   m_TagString: Untagged
@@ -532,9 +533,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalLight: {fileID: 619394801}
-  environmentParent: {fileID: 519420032}
+  environmentParent: {fileID: 189337902}
   crossfadeDuration: 1.5
-  offset: {x: 0, y: 0, z: 10}
+  parallaxCamera: {fileID: 519420032}
+  parallaxFactor: 0.939
 --- !u!4 &189337902
 Transform:
   m_ObjectHideFlags: 0
@@ -543,13 +545,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189337900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8, y: -26.1, z: -0.15973665}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -5, z: -0.15973663}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &189337903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189337900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eaddb6ce86216d4ab2fb5f996316310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parallaxFactor: 0.943
 --- !u!1 &190378316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4485,7 +4500,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0.8745099, b: 0.82745105, a: 1}
   m_FlipX: 0
@@ -5143,5 +5158,5 @@ SceneRoots:
   - {fileID: 1848235985}
   - {fileID: 112626690}
   - {fileID: 909415766}
-  - {fileID: 217177388}
   - {fileID: 189337902}
+  - {fileID: 217177388}

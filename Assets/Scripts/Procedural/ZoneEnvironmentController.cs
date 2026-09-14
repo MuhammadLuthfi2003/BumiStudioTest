@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal; // Light2D lives here (URP 2D Renderer package).
 
@@ -32,9 +32,15 @@ public class ZoneEnvironmentController : MonoBehaviour
     [Min(0f)]
     [SerializeField] private float crossfadeDuration = 1.5f;
 
-    [Header("Offset Settings")]
-    [Tooltip("offset of the object from the environmentparent")]
-    [SerializeField] Vector3 offset = Vector3.zero;
+    [Header("Parallax")]
+    [Tooltip("Camera whose movement drives the parallax drift. Falls back to Camera.main if left empty.")]
+    [SerializeField] private Transform parallaxCamera;
+
+    [Tooltip("How strongly each spawned environment drifts with the camera. " +
+             "0 = fully static in the world, 1 = locked to the camera (no parallax). " +
+             "Small values (0.05*0.2) give a subtle background drift.")]
+    [Range(0f, 1f)]
+    [SerializeField] private float parallaxFactor = 0.1f;
 
     private DiveManager diveManager;
     private GameObject _currentEnvironmentInstance;
@@ -177,7 +183,19 @@ public class ZoneEnvironmentController : MonoBehaviour
     {
         GameObject instance = Instantiate(prefab, prefab.transform.position, prefab.transform.rotation);
         instance.transform.SetParent(environmentParent != null ? environmentParent : transform, worldPositionStays: false);
-        instance.transform.position += offset;
+
+        Transform cam = parallaxCamera != null ? parallaxCamera : (Camera.main != null ? Camera.main.transform : null);
+        if (cam != null)
+        {
+            // GetComponent first in case the prefab already carries its own ParallaxLayer
+            // (e.g. an artist set a custom factor on a specific layer within the prefab).
+            ParallaxLayer parallax = instance.GetComponent<ParallaxLayer>();
+            if (parallax == null)
+                parallax = instance.AddComponent<ParallaxLayer>();
+
+            parallax.Initialize(cam, parallaxFactor);
+        }
+
         return instance;
     }
 

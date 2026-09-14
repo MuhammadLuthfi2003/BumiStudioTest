@@ -151,6 +151,10 @@ public class UpgradeManager : MonoBehaviour
             case UpgradeType.Cargo:
                 resourceManager.SetCargoCapacity(Mathf.RoundToInt(level.value));
                 break;
+
+            case UpgradeType.Health:
+                resourceManager.SetMaxHealth(level.value);
+                break;
         }
     }
 

@@ -7,6 +7,7 @@ public enum UpgradeType
 {
     Oxygen,
     Cargo,
+    Health,
 }
 
 /// <summary>

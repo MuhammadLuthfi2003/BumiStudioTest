@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1e312d3e73028458a5c391aa93ac13, type: 3}
+  m_Name: Upgrade_Health
+  m_EditorClassIdentifier: 
+  upgradeName: Health
+  description: 
+  type: 2
+  levels:
+  - cost: 100
+    value: 4
+  - cost: 300
+    value: 5
+  - cost: 500
+    value: 6
+  - cost: 750
+    value: 7

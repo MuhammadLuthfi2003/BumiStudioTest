@@ -962,7 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 305161901}
-  maxConcurrentHazards: 3
+  maxConcurrentHazards: 7
 --- !u!1 &335718225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,6 +1510,7 @@ MonoBehaviour:
   upgrades:
   - {fileID: 11400000, guid: 5a2e81813bac9a54c9fe3272ea1fa1e4, type: 2}
   - {fileID: 11400000, guid: f76d9792b64c79645aec803304d88714, type: 2}
+  - {fileID: 11400000, guid: 699cbbc9d1caf15498cc5e499b8ceca3, type: 2}
 --- !u!1 &589789370
 GameObject:
   m_ObjectHideFlags: 0
@@ -3782,7 +3783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 1715880523}
-  maxConcurrentHazards: 3
+  maxConcurrentHazards: 15
 --- !u!1 &1771070941
 GameObject:
   m_ObjectHideFlags: 0
@@ -3892,7 +3893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 1771070944}
-  maxConcurrentHazards: 3
+  maxConcurrentHazards: 30
 --- !u!224 &1842689509 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8151509283604721560, guid: 9af9abc3bb4a70b43b0a8c7e9d59d4ee, type: 3}
@@ -4285,7 +4286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ced31aec2ef3349be2b7b2e6ab06d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 500
+  startingMoney: 0
 --- !u!1 &2126641229
 GameObject:
   m_ObjectHideFlags: 0

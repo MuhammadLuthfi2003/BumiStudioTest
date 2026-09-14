@@ -20,5 +20,16 @@ MonoBehaviour:
     weightOverride: 0
   - fish: {fileID: 11400000, guid: b1dcb273322201e46865c2920aff58a9, type: 2}
     weightOverride: 0
+  hazardPool:
+  - hazard: {fileID: 11400000, guid: 5dbfaf8ee090ca44588a894059b026d2, type: 2}
+    weightOverride: 0
+  - hazard: {fileID: 11400000, guid: d14e9666880e2b44faec8591cd11ef1f, type: 2}
+    weightOverride: 0
+  - hazard: {fileID: 11400000, guid: 95ab5613557a9b44eb9ff86e7f463b1a, type: 2}
+    weightOverride: 0
+  - hazard: {fileID: 11400000, guid: 74b15ebacd4f6bd40805a60a11ab2fb0, type: 2}
+    weightOverride: 0
+  - hazard: {fileID: 11400000, guid: 04a675c0b83407a42a25b14d9d0f8b52, type: 2}
+    weightOverride: 0
   ambientTint: {r: 1, g: 1, b: 1, a: 1}
   environmentPrefab: {fileID: 0}

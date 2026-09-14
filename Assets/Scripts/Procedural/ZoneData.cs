@@ -22,6 +22,10 @@ public class ZoneData : ScriptableObject
     [Tooltip("Every fish that can spawn in this zone, with its spawn weight.")]
     public FishSpawnEntry[] fishPool;
 
+    [Header("Hazard Pool")]
+    [Tooltip("Every hazard that can spawn in this zone, with its spawn weight.")]
+    public HazardSpawnEntry[] hazardPool;
+
     [Header("Presentation")]
     public Color ambientTint = Color.white;
     public GameObject environmentPrefab; // background/terrain dressing for this zone
@@ -52,5 +56,32 @@ public class ZoneData : ScriptableObject
 
         // Fallback in case of floating point rounding at the tail end.
         return fishPool[fishPool.Length - 1].fish;
+    }
+
+    /// <summary>
+    /// Picks a random hazard from this zone's pool, weighted by rarity.
+    /// Returns null if the pool is empty or all weights are zero.
+    /// </summary>
+    public HazardData GetRandomHazard(System.Random rng = null)
+    {
+        if (hazardPool == null || hazardPool.Length == 0) return null;
+
+        float totalWeight = 0f;
+        foreach (var entry in hazardPool)
+            totalWeight += entry.EffectiveWeight;
+
+        if (totalWeight <= 0f) return null;
+
+        double roll = (rng != null ? rng.NextDouble() : UnityEngine.Random.value) * totalWeight;
+
+        float cumulative = 0f;
+        foreach (var entry in hazardPool)
+        {
+            cumulative += entry.EffectiveWeight;
+            if (roll <= cumulative)
+                return entry.hazard;
+        }
+
+        return hazardPool[hazardPool.Length - 1].hazard;
     }
 }

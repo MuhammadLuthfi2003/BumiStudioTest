@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("One FishSpawnArea per depth tier, ordered shallow to deep to match DiveManager.RunZones.")]
     [SerializeField] private FishSpawnArea[] spawnAreas;
 
+    [Header("Hazard Spawn Areas")]
+    [Tooltip("One HazardSpawnArea per depth tier, ordered shallow to deep to match spawnAreas/RunZones.")]
+    [SerializeField] private HazardSpawnArea[] hazardSpawnAreas;
+
     [Header("Surface Refrence")]
     [Tooltip("World Y position that counts as 0m depth. If left unset, the submarine's Y " +
              "position at the moment BeginTracking() is called is used instead.")]
@@ -106,6 +110,7 @@ public class GameManager : MonoBehaviour
 
         int count = Mathf.Min(zones.Length, spawnAreas.Length);
 
+        // 1. FISH SPAWNING
         if (zones.Length != spawnAreas.Length)
         {
             Debug.LogWarning($"GameManager: {zones.Length} zones generated but " +
@@ -118,6 +123,21 @@ public class GameManager : MonoBehaviour
         // Clear any leftover areas beyond what this run generated (e.g. array mismatch).
         for (int i = count; i < spawnAreas.Length; i++)
             spawnAreas[i]?.ClearAllFish();
+
+        // 2. HAZARD SPAWNING
+        int hazardCount = Mathf.Min(zones.Length, hazardSpawnAreas.Length);
+
+        if (zones.Length != hazardSpawnAreas.Length)
+        {
+            Debug.LogWarning($"GameManager: {zones.Length} zones generated but " +
+                              $"{hazardSpawnAreas.Length} hazard spawn areas configured. Only the first {hazardCount} will be populated.");
+        }
+
+        for (int i = 0; i < hazardCount; i++)
+            hazardSpawnAreas[i]?.AssignZone(zones[i]);
+
+        for (int i = hazardCount; i < hazardSpawnAreas.Length; i++)
+            hazardSpawnAreas[i]?.ClearAllHazards();
     }
 
     private void HandleDiveFailed()

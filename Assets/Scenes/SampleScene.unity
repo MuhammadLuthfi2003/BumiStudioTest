@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 16956299}
   - component: {fileID: 16956301}
   - component: {fileID: 16956300}
+  - component: {fileID: 16956302}
   m_Layer: 0
   m_Name: Depth0Spawner
   m_TagString: Untagged
@@ -214,6 +215,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &16956302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16956298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845bd27a919469f4a9a0f93e75caad5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnArea: {fileID: 16956301}
+  maxConcurrentHazards: 3
 --- !u!1 &73088714
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,6 +269,11 @@ MonoBehaviour:
   - {fileID: 305161900}
   - {fileID: 1715880522}
   - {fileID: 1771070943}
+  hazardSpawnAreas:
+  - {fileID: 16956302}
+  - {fileID: 305161902}
+  - {fileID: 1715880524}
+  - {fileID: 1771070945}
   surfaceRefrence: {fileID: 1036237568}
   submarine: {fileID: 253497898}
   depthTracker: {fileID: 1963119282}
@@ -844,6 +864,7 @@ GameObject:
   - component: {fileID: 305161899}
   - component: {fileID: 305161901}
   - component: {fileID: 305161900}
+  - component: {fileID: 305161902}
   m_Layer: 0
   m_Name: Depth30Spawner
   m_TagString: Untagged
@@ -928,6 +949,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &305161902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305161898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845bd27a919469f4a9a0f93e75caad5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnArea: {fileID: 305161901}
+  maxConcurrentHazards: 3
 --- !u!1 &335718225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3511,7 +3546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1604777574}
   m_Layer: 0
-  m_Name: Fish Spawners
+  m_Name: Spawners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3649,6 +3684,7 @@ GameObject:
   - component: {fileID: 1715880521}
   - component: {fileID: 1715880523}
   - component: {fileID: 1715880522}
+  - component: {fileID: 1715880524}
   m_Layer: 0
   m_Name: Depth60Spawner
   m_TagString: Untagged
@@ -3733,6 +3769,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1715880524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715880520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845bd27a919469f4a9a0f93e75caad5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnArea: {fileID: 1715880523}
+  maxConcurrentHazards: 3
 --- !u!1 &1771070941
 GameObject:
   m_ObjectHideFlags: 0
@@ -3744,6 +3794,7 @@ GameObject:
   - component: {fileID: 1771070942}
   - component: {fileID: 1771070944}
   - component: {fileID: 1771070943}
+  - component: {fileID: 1771070945}
   m_Layer: 0
   m_Name: Depth90Spawner
   m_TagString: Untagged
@@ -3828,6 +3879,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1771070945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771070941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845bd27a919469f4a9a0f93e75caad5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnArea: {fileID: 1771070944}
+  maxConcurrentHazards: 3
 --- !u!224 &1842689509 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8151509283604721560, guid: 9af9abc3bb4a70b43b0a8c7e9d59d4ee, type: 3}

@@ -11,6 +11,11 @@ public class ResourceManager : MonoBehaviour
     [Min(0f)]
     [SerializeField] private float maxOxygen = 100f;
 
+    [Header("Health")]
+    [Tooltip("Maximum health for the upcoming dive. Set this from the upgrade screen before StartDive().")]
+    [Min(0f)]
+    [SerializeField] private float maxHealth = 3f;
+
     [Tooltip("Units of oxygen consumed per second while diving.")]
     [Min(0f)]
     [SerializeField] private float oxygenDepletionRate = 1f;
@@ -27,6 +32,9 @@ public class ResourceManager : MonoBehaviour
     /// temp attributes to get the first default value
     public float CargoCapacity => cargoCapacity;
     public float MaxOxygen => maxOxygen;
+
+    public float CurrentHealth { get; private set; }
+    public float MaxHealth => maxHealth;
 
     /// <summary>True while a dive is in progress (between StartDive and ReturnToSurface/failure).</summary>
     public bool IsDiving { get; private set; }
@@ -54,6 +62,10 @@ public class ResourceManager : MonoBehaviour
 
     /// <summary>Fired when a dive ends in failure (oxygen depleted). All cargo is lost.</summary>
     public event Action OnDiveFailed;
+
+    /// <summary>Fired whenever health changes. Params: currentHealth, maxHealth.</summary>
+    public event Action<float, float> OnHealthChanged;
+
 
     // private variables
     private float _surfaceY;
@@ -94,17 +106,24 @@ public class ResourceManager : MonoBehaviour
         cargoCapacity = Mathf.Max(0, newCargoCapacity);
     }
 
+    /// <summary>Call from the upgrade screen to set max health before the next dive.</summary>
+    public void SetMaxHealth(float newMaxHealth)
+    {
+        maxHealth = Mathf.Max(0f, newMaxHealth);
+    }
+
     // ---- Dive lifecycle ----
 
     /// <summary>Begins a new dive: fills oxygen to max and clears any leftover cargo.</summary>
     public void StartDive()
     {
         CurrentOxygen = maxOxygen;
-        //_caughtFish.Clear();
+        CurrentHealth = maxHealth;
         IsDiving = true;
 
         OnOxygenChanged?.Invoke(CurrentOxygen, maxOxygen);
         OnCargoChanged?.Invoke(UsedCargoSlots, cargoCapacity);
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
 
     /// <summary>
@@ -176,6 +195,20 @@ public class ResourceManager : MonoBehaviour
         OnCargoChanged?.Invoke(UsedCargoSlots, cargoCapacity);
         OnOxygenDepleted?.Invoke();
         OnDiveFailed?.Invoke();
+    }
+
+    // -------- Health -------------
+    /// <summary>Called by hazards (or anything else) that should damage the submarine.</summary>
+    public void TakeDamage(float amount)
+    {
+        if (!IsDiving || amount <= 0f)
+            return;
+
+        CurrentHealth = Mathf.Max(0f, CurrentHealth - amount);
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+
+        if (CurrentHealth <= 0f)
+            FailDive(); // same failure path as oxygen depletion — cargo lost, OnDiveFailed fired
     }
 
 }

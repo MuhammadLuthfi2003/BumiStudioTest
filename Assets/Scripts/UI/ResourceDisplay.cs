@@ -8,6 +8,7 @@ public class ResourceDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentZoneDisplay;
     [SerializeField] private TextMeshProUGUI currentOxygenDisplay;
     [SerializeField] private TextMeshProUGUI currentCargoDisplay;
+    [SerializeField] private TextMeshProUGUI currentHealthDisplay;
 
     private ResourceManager resourceManager;
     private DiveManager diveManager;
@@ -25,6 +26,7 @@ public class ResourceDisplay : MonoBehaviour
         {
             resourceManager.OnOxygenChanged += SetOxygen;
             resourceManager.OnCargoChanged += SetCargo;
+            resourceManager.OnHealthChanged += SetHealth;
         }
 
         if (diveManager != null)
@@ -47,6 +49,7 @@ public class ResourceDisplay : MonoBehaviour
         {
             resourceManager.OnOxygenChanged -= SetOxygen;
             resourceManager.OnCargoChanged -= SetCargo;
+            resourceManager.OnHealthChanged -= SetHealth;
         }
 
         if (diveManager != null)
@@ -86,5 +89,11 @@ public class ResourceDisplay : MonoBehaviour
         if (currentDepthDisplay == null) return;
 
         currentDepthDisplay.text = "Current Depth : " + Mathf.RoundToInt(currentDepth).ToString() + "m";
+    }
+
+    void SetHealth(float currentHealth, float maxHealth)
+    {
+        if (currentHealthDisplay == null) return;
+        currentHealthDisplay.text = "Health : " + Mathf.RoundToInt(currentHealth) + "/" + Mathf.RoundToInt(maxHealth);
     }
 }

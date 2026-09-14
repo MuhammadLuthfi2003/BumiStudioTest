@@ -68,6 +68,8 @@ public class DiveManager : MonoBehaviour
 
         if (depthTracker != null)
             depthTracker.BeginTracking(); // fires OnDepthChanged(0), which evaluates the zone below
+
+        HandleDepthChanged(0); // fires starting zone to UI
     }
 
     /// <summary>

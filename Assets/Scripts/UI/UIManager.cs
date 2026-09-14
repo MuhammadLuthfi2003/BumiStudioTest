@@ -3,9 +3,9 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [Header("Panels")]
-    [SerializeField] GameObject UpgradePanel;
-    [SerializeField] GameObject CurrencyPanel;
-    [SerializeField] GameObject ResourcePanel;
+    [SerializeField] CanvasGroup UpgradePanel;
+    [SerializeField] CanvasGroup CurrencyPanel;
+    [SerializeField] CanvasGroup ResourcePanel;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,23 +15,31 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameplayPanel()
     {
-        ResourcePanel.SetActive(true);
+        ResourcePanel.alpha = 1.0f;
+        ResourcePanel.interactable = true;
     }
 
     public void HideGameplayPanel()
     {
-        ResourcePanel.SetActive(false);
+        ResourcePanel.alpha = 0.0f;
+        ResourcePanel.interactable = false;
     }
 
     public void ShowLobbyPanel()
     {
-        CurrencyPanel.SetActive(true);
-        UpgradePanel.SetActive(true);
+        CurrencyPanel.alpha = 1.0f;
+        UpgradePanel.alpha = 1.0f;
+
+        CurrencyPanel.interactable = true;
+        UpgradePanel.interactable = true;
     }
 
     public void HideLobbyPanel()
     {
-        CurrencyPanel.SetActive(false);
-        UpgradePanel.SetActive(false);
+        CurrencyPanel.alpha = 0.0f;
+        UpgradePanel.alpha = 0.0f;
+
+        CurrencyPanel.interactable = false;
+        UpgradePanel.interactable = false;
     }
 }

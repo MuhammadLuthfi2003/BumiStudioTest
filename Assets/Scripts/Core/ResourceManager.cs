@@ -100,7 +100,7 @@ public class ResourceManager : MonoBehaviour
     public void StartDive()
     {
         CurrentOxygen = maxOxygen;
-        _caughtFish.Clear();
+        //_caughtFish.Clear();
         IsDiving = true;
 
         OnOxygenChanged?.Invoke(CurrentOxygen, maxOxygen);

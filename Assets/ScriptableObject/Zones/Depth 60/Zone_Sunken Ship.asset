@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39db8fc50a7d964419b3ef5c862c41ee, type: 3}
-  m_Name: Zone_Midnight Zone
+  m_Name: Zone_Sunken Ship
   m_EditorClassIdentifier: 
-  zoneName: Midnight Zone
+  zoneName: Sunken Ship
   flavorText: 
   minDepth: 60
   fishPool:
@@ -34,4 +34,4 @@ MonoBehaviour:
   - hazard: {fileID: 11400000, guid: 04a675c0b83407a42a25b14d9d0f8b52, type: 2}
     weightOverride: 0
   ambientTint: {r: 1, g: 1, b: 1, a: 1}
-  environmentPrefab: {fileID: 0}
+  environmentPrefab: {fileID: 7221646539094270783, guid: 7837b25d99bb40844be1111186892643, type: 3}

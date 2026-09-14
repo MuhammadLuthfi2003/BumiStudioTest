@@ -34,4 +34,4 @@ MonoBehaviour:
   - hazard: {fileID: 11400000, guid: d14e9666880e2b44faec8591cd11ef1f, type: 2}
     weightOverride: 0
   ambientTint: {r: 1, g: 1, b: 1, a: 1}
-  environmentPrefab: {fileID: 0}
+  environmentPrefab: {fileID: 2576431457703395993, guid: b9d5c8fd23eeaec479e7891170f04fcb, type: 3}

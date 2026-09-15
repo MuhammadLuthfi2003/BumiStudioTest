@@ -216,4 +216,8 @@ public class GameManager : MonoBehaviour
         currentState = RunStates.PreDive;
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

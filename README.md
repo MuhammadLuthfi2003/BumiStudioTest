@@ -106,5 +106,5 @@ Rather than manually wiring manager references into every script that needs them
 
 - **No hazard indicator** > hazards are hard to spot and avoid before it's too late.
 - **Low player clarity** > no visual cue for when a fish is within catching range.
-
+- **Catched Fish Resets on Quit** > when player catcher a fish and quits the game, the fish in the cargo isnt saved onto the persistent data.
 ---

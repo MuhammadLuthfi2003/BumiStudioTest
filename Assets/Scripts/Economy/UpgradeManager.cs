@@ -5,12 +5,14 @@ using UnityEngine;
 /// <summary>
 /// Handles the pre-dive upgrade shop
 /// Upgrade levels are permanent progression: once purchased, a level is never lost,
-/// not even on a failed dive (only cargo *contents* are lost).
+/// not even on a failed dive (only cargo *contents* are lost) — and, with SaveManager
+/// wired in, not even between play sessions.
 ///
 /// Each UpgradeData track (Oxygen, Cargo, ...) is tracked independently and starts
-/// at level 0 (base stats, as configured on ResourceManager itself). Purchasing a
-/// level spends money via CurrencyManager, then pushes the new stat value into
-/// ResourceManager so it's in effect for the next dive.
+/// at level 0 (base stats, as configured on ResourceManager itself) unless a save file
+/// says otherwise. Purchasing a level spends money via CurrencyManager, then pushes the
+/// new stat value into ResourceManager so it's in effect for the next dive, and writes
+/// the new level to SaveManager so it survives a restart.
 /// </summary>
 public class UpgradeManager : MonoBehaviour
 {
@@ -37,8 +39,30 @@ public class UpgradeManager : MonoBehaviour
         {
             foreach (var upgrade in upgrades)
             {
-                if (upgrade != null && !_levels.ContainsKey(upgrade))
-                    _levels[upgrade] = 0;
+                if (upgrade == null) continue;
+
+                // Pull the persisted level for this track (0 if never purchased / no save yet).
+                // SaveManager's own Awake() has already loaded the file by the time any
+                // Start() executes, so this is safe regardless of component order.
+                int savedLevel = SaveManager.Instance != null
+                    ? SaveManager.Instance.Data.GetUpgradeLevel(upgrade.type)
+                    : 0;
+
+                _levels[upgrade] = savedLevel;
+
+                // Re-apply the saved level's stat onto ResourceManager so the sub actually
+                // has the upgraded oxygen/cargo capacity before the player's first dive,
+                // rather than only remembering the level number.
+                if (savedLevel > 0)
+                {
+                    UpgradeLevel level = upgrade.GetLevel(savedLevel);
+                    if (level != null)
+                    {
+                        ApplyUpgrade(upgrade, level);
+                        // fires to the UI to load the data
+                        OnUpgradePurchased?.Invoke(upgrade, savedLevel);
+                    }
+                }
             }
         }
     }
@@ -101,7 +125,8 @@ public class UpgradeManager : MonoBehaviour
     /// <summary>
     /// Attempts to purchase the next level of the given upgrade track.
     /// Fails if already at max level, or the player can't afford it.
-    /// Returns true on success, after applying the new stat to ResourceManager.
+    /// Returns true on success, after applying the new stat to ResourceManager and
+    /// persisting the new level via SaveManager.
     /// </summary>
     public bool TryPurchaseUpgrade(UpgradeType type)
     {
@@ -128,6 +153,12 @@ public class UpgradeManager : MonoBehaviour
         }
         _levels[upgrade] = nextLevelNumber;
         ApplyUpgrade(upgrade, nextLevel);
+
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.Data.SetUpgradeLevel(upgrade.type, nextLevelNumber);
+            SaveManager.Instance.Save();
+        }
 
         OnUpgradePurchased?.Invoke(upgrade, nextLevelNumber);
         return true;

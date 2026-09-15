@@ -27,11 +27,11 @@ This resource dictates how much the weight of the fishes you can carry. Some fis
 - E to catch fish (when the fish is reachable by the submarine)
 - Mouseclick to upgrade the submarine's stats
 
-Gamplay Loop Hints:
-To start the game, just move the submarine to the lifebuoy near the "start game" panel.
-To return to the surface, move the submarine to the lifebuoy near the "return to surface" panel.
-After a successful dive, to sell the caught fish, move the submarine to the lifebuoy near the "sell fish" panel.
-To upgrade a stat, simply press the button near the desired stat using a mouse.
+### Gamplay Loop Hints:
+- To start the game, just move the submarine to the lifebuoy near the "start game" panel.
+- To return to the surface, move the submarine to the lifebuoy near the "return to surface" panel.
+- After a successful dive, to sell the caught fish, move the submarine to the lifebuoy near the "sell fish" panel.
+- To upgrade a stat, simply press the button near the desired stat using a mouse.
 
 ## Game Information
 - Engine & version used: Unity 6000.0.83f1

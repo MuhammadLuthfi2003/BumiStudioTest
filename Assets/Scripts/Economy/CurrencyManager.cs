@@ -6,12 +6,14 @@ using UnityEngine;
 /// cargo/oxygen, which reset every dive). Subscribes to ResourceManager.OnDiveSuccess to
 /// add earned money automatically on a successful return.
 ///
+/// Money is persisted via SaveManager: loaded on Start, written back on every change.
+///
 /// Singleton, same pattern as GameManager, since only one wallet should exist per save.
 /// </summary>
 public class CurrencyManager : MonoBehaviour
 {
     [Header("Starting Balance")]
-    [Tooltip("Money the player has at the very start of a new game.")]
+    [Tooltip("Money the player has at the very start of a brand new save (no save file found yet).")]
     [Min(0)]
     [SerializeField] private int startingMoney = 0;
 
@@ -35,11 +37,19 @@ public class CurrencyManager : MonoBehaviour
         }
 
         Instance = this;
-        CurrentMoney = startingMoney;
     }
 
     private void Start()
     {
+        // Load persisted money if a save exists; otherwise fall back to the configured
+        // starting balance (first-ever launch). SaveManager's own Awake() has already
+        // run and loaded the file by the time any Start() executes.
+        CurrentMoney = SaveManager.Instance != null
+            ? SaveManager.Instance.Data.currentMoney
+            : startingMoney;
+
+        OnMoneyChanged?.Invoke(CurrentMoney);
+
         resourceManager = GameManager.Instance != null ? GameManager.Instance.ResourceManager : null;
 
         if (resourceManager != null)
@@ -66,6 +76,7 @@ public class CurrencyManager : MonoBehaviour
 
         CurrentMoney += amount;
         OnMoneyChanged?.Invoke(CurrentMoney);
+        PersistMoney();
     }
 
     /// <summary>
@@ -79,9 +90,20 @@ public class CurrencyManager : MonoBehaviour
 
         CurrentMoney -= amount;
         OnMoneyChanged?.Invoke(CurrentMoney);
+        PersistMoney();
         return true;
     }
 
     /// <summary>Whether the player currently has enough money for the given cost.</summary>
     public bool CanAfford(int amount) => amount >= 0 && amount <= CurrentMoney;
+
+    /// <summary>Pushes CurrentMoney into the save file. Called after every change so a
+    /// crash/force-quit never loses more than the most recent transaction.</summary>
+    private void PersistMoney()
+    {
+        if (SaveManager.Instance == null) return;
+
+        SaveManager.Instance.Data.currentMoney = CurrentMoney;
+        SaveManager.Instance.Save();
+    }
 }
